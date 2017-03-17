@@ -16,8 +16,8 @@ function viz(data){
   // selecciona la división donde se inyectará el SVG
   var svg = d3.select('#viz')
     .append('svg') // agrega un elemento SVG
-    .attr('width', 400) // al SVG le agrega el atributo ancho de 400px
-    .attr('height', 200) // al SVG le agrega el atributo alto de 200px
+    .attr('width', 600) // al SVG le agrega el atributo ancho de 400px
+    .attr('height', 600) // al SVG le agrega el atributo alto de 200px
 
   var elem = svg.selectAll('g') // selecciona todos los elementos `g` (grupos)
     .data(data) // enlaza los datos del servidor
@@ -25,16 +25,16 @@ function viz(data){
   var elemEnter = elem.enter()
       .append('g') // agrega un grupo
       .attr('transform', function(d,i){ // aplica una transformación al elemento
-        return "translate("+(80*i+40)+", 80)" // calcula la posción relativo a
+        return "translate( 80, "+( 80 *i+60)+")" // calcula la posción relativo a
                                               // los datos
       })
 
   var circulo = elemEnter.append('circle') // agrega un circulo
-    .attr('stroke', 'black') // la línea de contorno será negra
+    .attr('stroke', 'none') // la línea de contorno será negra
     .attr('fill', function(d){ // el color de relleno se aplica según el
                                // resultado de esta función
       if(d.public){     // si el elemento actual es público
-        return 'green'  // el color de relleno será verde
+        return 'blue'  // el color de relleno será verde
       } else {          // de lo contrario (será público)
         return 'red'    // el color de relleno será rojo
       }
@@ -48,6 +48,8 @@ function viz(data){
   var txt = elemEnter.append('text') //agrega un elemento de tipo text
     .attr('dy', -35) // la posición en y
     .attr('dx', -20) // la posición en x
+    .attr('fill', 'red')
+    .attr('style', 'font-size: 1rem;')
     .text(function(d){ // extrae el texto de la información del servidor
       return d.element_texts[0].text
     })
@@ -61,11 +63,11 @@ var request = new XMLHttpRequest();
 // servidor proxy para souclionar problemas de CORS (ver README)
 var CORS_PROXY = 'http://192.169.250.12:8088/';
 // usa el proxy?
-var use_cors = false;
+var use_cors = true;
 //la URL del API (http://miomeka.org/api)
-var baseUrl = ''
+var baseUrl = 'http://192.169.250.12/~sandbox/omeka/api'
 // el key generado por omeka
-var API_KEY = ''
+var API_KEY = '53dab2b3f987c9c051decc617674a0ad73aa3757'
 
 // comstruye la URL final a partir de los datos suministrados anteriormente
 var URL = '' // variable donde se guardará la URL final
